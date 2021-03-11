@@ -1,4 +1,4 @@
-﻿using Cloud.Authentication.DI;
+using Cloud.Authentication.DI;
 using Cloud.Authentication.Services;
 using Cloud.Authentication.Services.Cache;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,9 +11,9 @@ namespace Cloud.Authentication
 {
     class Program
     {
-        private static string _username = "admin@M365x677264.onmicrosoft.com";
-        private static string _password = "5kep7353bC";
-        private static string _clientId = "d6e01331-be4e-4114-86f1-09f2a9252679";
+        private static string _username = "";
+        private static string _password = "";
+        private static string _clientId = "";
         static void Main(string[] args)
         {
             var services = new ServiceCollection();
