@@ -1,9 +1,5 @@
 ﻿using Cloud.Authentication.Services;
-using Cloud.Authentication.Services.Cache;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Cloud.Authentication.DI
 {

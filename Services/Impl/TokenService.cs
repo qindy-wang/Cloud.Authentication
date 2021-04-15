@@ -13,7 +13,7 @@ namespace Cloud.Authentication.Services
     public class TokenService : ITokenService
     {
         private string _tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/token";
-        public async Task<string> GetAccessToken(string username, string password, TokenType tokenType, string clientId = "")
+        public async Task<string> GetAccessToken(string username, string password, TokenType tokenType, string clientId = "", string resourceUrl= "")
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -25,7 +25,7 @@ namespace Cloud.Authentication.Services
                 case TokenType.EndpointManager:
                     return await GetAADAccessToken(username, password);
                 case TokenType.SharePoint:
-                    return await GetSPAccessToken(username, password, clientId);
+                    return await GetSPAccessToken(username, password, clientId, resourceUrl);
                 default:
                     return string.Empty;
             }
@@ -41,12 +41,15 @@ namespace Cloud.Authentication.Services
             return await GetAccessToken(resource);
         }
 
-        private async Task<string> GetSPAccessToken(string username, string password, string clientId)
+        private async Task<string> GetSPAccessToken(string username, string password, string clientId, string resourceUrl)
         {
-            var spAdminUrl = $"https://{username.Substring(username.IndexOf("@") + 1, username.IndexOf(".") - username.IndexOf("@") - 1)}-admin.sharepoint.com/";
+            if (string.IsNullOrEmpty(resourceUrl))
+            {
+                resourceUrl = $"https://{username.Substring(username.IndexOf("@") + 1, username.IndexOf(".") - username.IndexOf("@") - 1)}-admin.sharepoint.com/";
+            }
             try
             {
-                var uri = new Uri(spAdminUrl);
+                var uri = new Uri(resourceUrl);
                 string _resource = $"{uri.Scheme}://{uri.DnsSafeHost}";
                 var resource = $"resource={_resource}&client_id={clientId}&grant_type=password&username={HttpUtility.UrlEncode(username)}&password={HttpUtility.UrlEncode(password)}";
                 return await GetAccessToken(resource);

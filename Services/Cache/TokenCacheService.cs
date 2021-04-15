@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cloud.Authentication.Services.Cache
+namespace Cloud.Authentication.Services
 {
     public class TokenCacheService: ITokenCacheService
     {
@@ -24,13 +24,13 @@ namespace Cloud.Authentication.Services.Cache
             this._tokenService = tokenService;
         }
 
-        public async Task<string> TryGetValue(string username, string password, TokenType tokenType, string clientId = "")
+        public async Task<string> TryGetValue(string username, string password, TokenType tokenType, string clientId = "", string resourceUrl = "")
         {
             var token = string.Empty;
-            _confidentialTokenKey = BuildCacheKey(username, password, tokenType, clientId);
+            _confidentialTokenKey = BuildCacheKey(username, password, tokenType, clientId, resourceUrl);
             if (!_cache.TryGetValue(_confidentialTokenKey, out token))
             {
-                token = await _tokenService.GetAccessToken(username, password, tokenType, clientId);
+                token = await _tokenService.GetAccessToken(username, password, tokenType, clientId, resourceUrl);
                 this.SetCache(_confidentialTokenKey, token);
             }
             return token;

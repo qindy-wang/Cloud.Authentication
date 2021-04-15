@@ -7,7 +7,7 @@ namespace Cloud.Authentication.Services
 {
     public interface ITokenService
     {
-        Task<string> GetAccessToken(string userName, string password, TokenType tokenType, string clientId = "");
+        Task<string> GetAccessToken(string userName, string password, TokenType tokenType, string clientId = "", string resourceUrl = "");
 
         Task<string> GetAppAccessToken(string clientId, string clientSecret);
     }

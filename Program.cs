@@ -1,11 +1,7 @@
 using Cloud.Authentication.DI;
 using Cloud.Authentication.Services;
-using Cloud.Authentication.Services.Cache;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Cloud.Authentication
 {
