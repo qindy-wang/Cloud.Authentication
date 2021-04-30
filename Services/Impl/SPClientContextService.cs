@@ -29,6 +29,7 @@ namespace Cloud.Authentication.Services.Impl
         public async Task<ClientContext> GetSPClientContext(string username, string password, string clientId, string siteUrl)
         {
             var accessToken = await _tokenCacheService.TryGetValue(username, password, TokenType.SharePoint, clientId, siteUrl);
+
             var context = new ClientContext(new Uri(siteUrl));
             context.ExecutingWebRequest += (sender, e) =>
             {
@@ -36,5 +37,18 @@ namespace Cloud.Authentication.Services.Impl
             };
             return context;
         }
+
+        #region obsolete not support app clientsercret authentication, support certifacate 
+        public async Task<ClientContext> GetSPClientContextByApp(string clientId, string clientSecret, string siteUrl)
+        {
+            var accessToken = await _tokenCacheService.TryGetValue(clientId, clientSecret);
+            var context = new ClientContext(new Uri(siteUrl));
+            context.ExecutingWebRequest += (sender, e) =>
+            {
+                e.WebRequestExecutor.RequestHeaders["Authorization"] = "Bearer " + accessToken;
+            };
+            return context;
+        }
+        #endregion
     }
 }

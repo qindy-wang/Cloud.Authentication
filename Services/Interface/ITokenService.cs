@@ -18,4 +18,10 @@ namespace Cloud.Authentication.Services
         EndpointManager = 2,
         SharePoint = 3
     }
+
+    public enum AppTokenType
+    { 
+        Graph = 0,
+        MS365 = 1
+    }
 }
